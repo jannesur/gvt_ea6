@@ -1,0 +1,20 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, sans-serif; background: #eef1f5; color: #1f2937; }
+.header { padding: 16px; background: #214B83; color: white; text-align: center; border-bottom: 1px solid #193B68; }
+.header h1 { margin: 0; }
+.container { max-width: 900px; margin: 0 auto; padding: 16px; }
+.panel { background: white; border: 1px solid #d1d5db; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+.panel h2 { margin-top: 16px; }
+.buttons { text-align: center; margin: 20px 0; }
+button { background: #214B83; color: white; border: none; border-radius: 5px; padding: 12px 18px; margin: 5px; cursor: pointer; font-size: 15px; }
+button:hover { background: #193B68; }
+button:focus-visible, a:focus-visible { outline: 3px solid #f59e0b; outline-offset: 3px; }
+.animation-area { display: flex; justify-content: center; align-items: center; background: #f8fafc; border: 1px solid #d1d5db; border-radius: 10px; margin: 20px 0; overflow: hidden; }
+#canvas { display: block; width: 100%; max-width: 700px; height: auto; }
+.center, #modeInfo { text-align: center; }
+.dokumentation { text-align: left; }
+.dokumentation h2 { margin-top: 16px; margin-bottom: 20px; }
+.dokumentation h3 { margin-top: 24px; margin-bottom: 16px; }
+.dokumentation p { margin: 0 0 20px; line-height: 1.45; }
+a { color: #214B83; }
+@media (max-width: 640px) { button { padding: 10px 12px; } }

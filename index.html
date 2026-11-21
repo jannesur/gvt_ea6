@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EA6 - Fliegende Kugeln (TFM)</title>
+    <link rel="stylesheet" href="style.css">
+
+
+    <script src="ext/gl-matrix.js"></script>
+
+    <script src="GVT_Src_vertexData_sphere.js"></script>
+    <script src="GVT_Src_vertexData_torus.js"></script>
+    <script src="GVT_Src_vertexData_plane.js"></script>
+
+    <script id="vertexshader" type="x-shader/x-vertex">
+        attribute vec3 aPosition;
+        attribute vec3 aNormal;
+        uniform mat4 uPMatrix;
+        uniform mat4 uMVMatrix;
+        uniform vec4 uColor;
+        varying vec4 vColor;
+
+        void main() {
+            gl_Position = uPMatrix * uMVMatrix * vec4(aPosition, 1.0);
+            float brightness = (aNormal.z + 1.0) / 2.0;
+            vColor = vec4(uColor.rgb * brightness, 1.0);
+        }
+    </script>
+    <script id="fragmentshader" type="x-shader/x-fragment">
+        precision mediump float;
+        varying vec4 vColor;
+
+        void main() {
+            gl_FragColor = vColor;
+        }
+    </script>
+</head>
+<body>
+<header class="header"><h1>EA6 - Fliegende Kugeln</h1></header>
+<main class="container">
+    <section class="panel">
+        <h2>Objekte bewegen</h2>
+        <div class="buttons">
+            <button type="button" id="animationButton" onclick="app.toggleAnimation()">Animation starten</button>
+            <button type="button" onclick="app.moveStep()">Ein Schritt (K)</button>
+        </div>
+        <div class="buttons">
+            <button type="button" onclick="app.toggleMode()">Darstellung wechseln</button>
+        </div>
+        <p id="modeInfo">Darstellung: Füllung mit Liniennetz</p>
+        <div class="animation-area">
+            <canvas id="canvas" width="700" height="550">Dein Browser unterstützt Canvas nicht.</canvas>
+        </div>
+    </section>
+    <section class="panel dokumentation">
+        <h2>Dokumentation</h2>
+        <h3>Bedienung</h3>
+        <p>Mit der Taste K oder dem Button „Ein Schritt (K)“ bewegen sich alle vier Kugeln einen Schritt weiter. Dies ist nur bei angehaltener Animation möglich.</p>
+        <p>Mit „Animation starten/stoppen“ wird die automatische Bewegung ein- und ausgeschaltet. Mit „Darstellung wechseln“ kann zwischen Flächen mit Liniennetz und reinen Linien gewechselt werden.</p>
+        <p>Die Kameratasten aus TFM bleiben erhalten: <strong>C</strong> = Kamera kreisen lassen, <strong>H</strong> = Höhe, <strong>D</strong> = Entfernung, <strong>V</strong> = Blickwinkel; <strong>O</strong>, <strong>F</strong> und <strong>P</strong> wechseln die Projektion. <strong>B</strong> ändert den Ausschnitt. Mit <strong>Umschalt</strong> wird bei den Kameratasten die Richtung umgekehrt.</p>
+        <h3>Technische Umsetzung</h3>
+        <p>Die Anwendung verwendet HTML, CSS, JavaScript und WebGL. Sie basiert auf dem TFM-Softwaregerüst mit den Modellen <code>torus</code>, <code>plane</code> und <code>sphere</code> sowie der Matrixbibliothek gl-matrix.</p>
+        <p>Die Kugelmittelpunkte bewegen sich mit Sinus und Kosinus auf einem Kreis. Ihre Winkel sind jeweils um 90 Grad versetzt, weshalb sie sich nicht berühren.</p>
+        <p>Die kleine Kreisbahn liegt innerhalb der Torusöffnung. Zusätzlich dreht sich der Torus um die X-Achse, also nicht lediglich um seine eigene Symmetrieachse. Beide Bewegungen nutzen denselben Animationsparameter mit verschiedenen Winkelgeschwindigkeiten.</p>
+        <p>Jedes Objekt besitzt eine Modellmatrix. Die View-Matrix wird für die Kamera verwendet. Die automatische Bewegung erfolgt mittels <code>requestAnimationFrame()</code>. Während der Animation bleibt die Kamera unverändert, solange keine Kamerataste gedrückt wird. Die Gitterebene bewegt sich nicht.</p>
+        <h3>Quellen</h3>
+        <p>TFM Material: <code>TFM_Src_tpl.zip</code>.
+        <p>Zusätzliche Orientierung zur Rotation: <a href="https://webglfundamentals.org/webgl/lessons/webgl-2d-rotation.html" target="_blank" rel="noopener noreferrer">WebGL Fundamentals – Rotation</a>.</p>
+
+    </section>
+</main>
+<script src="app.js"></script>
+<script>app.start();</script>
+</body>
+</html>
